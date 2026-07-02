@@ -1,19 +1,7 @@
-SPT Manufacturing Shortage Dashboard
+Streamlit Cloud 修正版
 
-Quick start:
-1. Extract this ZIP completely.
-2. Open the extracted folder.
-3. Double-click start_dashboard.bat.
-4. Your browser will open the Streamlit dashboard.
+1. 將 app.py 與 requirements.txt 上傳到 GitHub 儲存庫根目錄。
+2. Streamlit Main file path 填 app.py。
+3. 網頁開啟後，上傳製令缺料 Excel。
 
-Included files:
-- app.py
-- requirements.txt
-- start_dashboard.bat
-- data/sample_data.xlsx
-
-Main logic:
-- Extract project code from remarks, e.g. 22M0026-01 -> 22M0026.
-- Group the same material number under the same project.
-- Sum shortage quantity and combine work-order / remarks lists.
-- Allow project-name mapping and Excel export.
+修正內容：未附預設 Excel 時不再發生 KeyError，而是提示使用者上傳檔案。

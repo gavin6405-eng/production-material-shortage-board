@@ -148,7 +148,13 @@ def load_source(uploaded_file, selected_sheet: str | int = 0, header_row: int = 
 
 def prepare_data(df: pd.DataFrame, project_mapping: dict[str, str] | None = None) -> tuple[pd.DataFrame, dict[str, str]]:
     if df.empty:
-        return df.copy(), {}
+        empty_columns = [
+            "材料品號", "品名", "規格", "製令編號", "急料", "欠料數量",
+            "現有庫存", "逾期未入", "欠料包裝數量", "現有包裝庫存",
+            "備註", "逾期包裝未入", "專案代碼", "專案名稱",
+            "急料判定", "逾期判定"
+        ]
+        return pd.DataFrame(columns=empty_columns), {}
     df = df.copy()
     df.columns = [str(c).strip() for c in df.columns]
 
@@ -296,6 +302,11 @@ try:
     base_df, source_name = load_source(uploaded, 0, int(header_row) - 1)
 except Exception as exc:
     st.error(f"Excel 讀取失敗：{exc}")
+    st.stop()
+
+if base_df.empty:
+    st.warning("目前尚未讀取到缺料資料。請展開上方『資料來源與讀取設定』並上傳製令缺料 Excel。")
+    st.info("Excel 至少需要包含『材料品號』與『備註』欄位；備註中的 22M0026-01 會自動整合為專案代碼 22M0026。")
     st.stop()
 
 # 先建立代碼，再提供名稱對照編輯
